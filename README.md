@@ -2,7 +2,12 @@
 
 Bem-vindos ao desafio prático de **CI/CD e DevOps**. Este repositório serve como base para a implementação de um fluxo de entrega contínua que segue os padrões mais rigorosos de automação, imutabilidade e resiliência.
 
-## 🎯 O Objetivo
+## 🎯 O Objetivo da equipe
+# *Ariel*
+# *Marinalva*
+# *Luana*
+# *Felipe*
+
 Sua equipe deve configurar um pipeline automatizado que garanta que o código só chegue ao cliente final (Produção) se for aprovado em todas as etapas de segurança e qualidade.
 
 ---
