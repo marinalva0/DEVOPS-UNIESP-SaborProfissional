@@ -12,7 +12,7 @@ func TestSoma(t *testing.T) {
 }
 
 func TestCalc(t *testing.T) {
-	// Teste incompleto e confuso
+	// Testezinho de calculinhos
 	r := Calc(10)
 	if r != "Grande" {
 		t.Errorf("Erro no Calc")

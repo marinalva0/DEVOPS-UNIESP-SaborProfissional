@@ -1,45 +1,54 @@
-name: Desafio Pipeline Uniesp
+name: Java CI with Maven
 
-on: [push]
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  # ETAPA 1: O GUARDIÃO
-  commit-stage:
+  build:
+    name: Compilar e Executar Testes Unitarios
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: xabum_db
+          MYSQL_ROOT_PASSWORD: pipeline-password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -ppipeline-password"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     steps:
-      - uses: actions/checkout@v4
-      
-      # TODO: Configurar o ambiente Go
-      
-      # TODO: Comando para rodar os testes unitários
-      # Dica: O pipeline deve PARAR se o teste falhar.
-      
-      # TODO: Login e Build/Push da imagem Docker
-      # Dica: Use o SHA do commit como tag para garantir imutabilidade.
+      - name: Mensagem de inicio
+        run: echo "Crianças n ouvi direito"
 
-  # ETAPA 2: HOMOLOGAÇÃO
-  staging-stage:
-    # ERRO PROPOSITAL: Falta a dependência aqui. 
-    # Sem ela, este job rodará ao mesmo tempo que o de cima.
-    runs-on: ubuntu-latest
-    steps:
-      # TODO: Comando para simular a migração do banco de dados
-      - name: Migração de Banco
-        run: echo "O grupo deve implementar o comando de migração aqui"
+      - name: Baixar codigo
+        uses: actions/checkout@v4
 
-      # TODO: Puxar a imagem do registry e "implantar" (echo)
+      - name: Preparar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
 
-  # ETAPA 3: PRODUÇÃO
-  production-stage:
-    # TODO: Definir a dependência correta
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        run: echo "Implantando a mesma imagem de Staging..."
+      - name: Liberar Maven Wrapper
+        run: chmod +x mvnw
 
-      # TODO: Implementar o Smoke Test
-      # Dica: Use um comando que verifique o status HTTP de uma rota.
+      - name: Executar Testes e Build com Maven
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/xabum_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: pipeline-password
+          XABUM_SECURITY_ENABLED: "false"
+        run: ./mvnw clean package
+
+      - name: Mensagem final
+        run: echo "Estamos prontos capitão"

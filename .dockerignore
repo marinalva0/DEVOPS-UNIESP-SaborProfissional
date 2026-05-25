@@ -1,0 +1,12 @@
+.git
+.github
+.idea
+target
+legacy-go
+.env
+.env.*
+*.env
+*.env.*
+*.iml
+*.iws
+*.ipr
