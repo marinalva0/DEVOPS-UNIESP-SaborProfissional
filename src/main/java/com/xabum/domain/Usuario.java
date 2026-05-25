@@ -21,7 +21,6 @@ public class Usuario {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    // Usando String para salvar o texto do Enum no banco
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
     private TipoCategoria tipo;
