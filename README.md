@@ -1,85 +1,40 @@
 # 🚀 Desafio DevOps: O Pipeline Inquebrável (Edição Java + SOLID)
 
-## 📌 Contexto
-Este projeto inicia como uma aplicação **Go** mal estruturada, com bugs e sem testes adequados. Sua missão é transformar este "legado" em uma solução profissional seguindo os mais altos padrões de engenharia de software.
+![Java CI with Maven](https://github.com/marinalva0/DEVOPS-UNIESP-SaborProfissional/actions/workflows/pipeline.yml/badge.svg)
 
----
+## 📌 Contexto
+Este projeto é a migração de um sistema legado em **Go** para uma arquitetura profissional em **Java (Spring Boot)**. O foco é garantir a qualidade do software através de testes automatizados e um pipeline de CI/CD robusto, aplicando princípios **SOLID** e **Arquitetura Hexagonal**.
 
 ## 👥 Integrantes
-- Ariel
-- Marinalva
-- Luana
-- Felipe
+- Ariel, Marinalva, Luana e Felipe
 
 ---
 
-## 🎯 O Grande Desafio
-O objetivo é realizar a migração e implementação completa do pipeline de CI/CD, garantindo que o código só chegue à produção após passar por todas as etapas de qualidade e segurança.
+## 🎯 Objetivo
+Transformar uma base legada em uma solução profissional, onde o código só chega à produção após passar por etapas rigorosas de validação:
+1. **CI (Commit):** Build da imagem Docker e execução de testes unitários.
+2. **Staging (Homologação):** Migrations automatizadas (Flyway) e testes de aceitação.
+3. **Produção:** Deploy validado com *Smoke Test* (`/actuator/health` retornando HTTP 200).
 
 ---
 
-## 🧠 Regras do Projeto
+## 📊 Conformidade com o Desafio
 
-### 1. Reescrita para Java
-- Linguagem: Java (sugestão: Spring Boot)
-- Arquitetura: Hexagonal (Ports & Adapters)
-- Princípios: SOLID
-
----
-
-### 2. Desenvolvimento com TDD
-- Corrigir bugs existentes (ex: função `Soma`)
-- Desenvolver novas funcionalidades usando TDD
-- Nenhum código entra no pipeline sem testes passando
+| Requisito | Status | Evidência |
+| :--- | :---: | :--- |
+| **Migração para Java** | ✅ | Estrutura Spring Boot em `src/main/java` |
+| **Arquitetura Hexagonal** | ✅ | Separação em `domain`, `application` e `infra` |
+| **SOLID & TDD** | ✅ | Injeção de dependência e testes unitários (JUnit) |
+| **Pipeline CI/CD** | ✅ | `.github/workflows/pipeline.yml` operacional |
+| **Imutabilidade** | ✅ | Imagem única validada em todos os estágios |
+| **Automação de DB** | ✅ | Flyway configurado em `db/migration/` |
+| **Resiliência** | ✅ | Pipeline bloqueia merges com falha de build |
 
 ---
 
-### 3. Pipeline de CI/CD (GitHub Actions)
-
-O pipeline deve conter:
-
-#### 🔹 Commit (CI)
-- Build da imagem Docker
-- Execução de testes unitários
-
-#### 🔹 Homologação (Staging)
-- Uso de imagem imutável (sem rebuild)
-- Execução automática de migrations (Flyway/Liquibase)
-- Ambiente de testes de aceitação
-
-#### 🔹 Produção
-- Deploy da mesma imagem validada
-- Smoke Test no endpoint `/health` (HTTP 200 obrigatório)
-
----
-
-## 📊 Critérios de Avaliação
-
----
-
-## ⚠️ Resiliência
-O professor pode inserir commits quebrados propositalmente. O time deve:
-- identificar o erro no pipeline
-- corrigir rapidamente (hotfix)
-- restaurar o fluxo de entrega
-
----
-
-> "A qualidade não é um ato, é um hábito."
-4. Implementar arquitetura hexagonal
-5. Criar pipeline em `.github/workflows/pipeline.yml`
-| Item | Descrição | Peso |
-
-3. Migrar estrutura para Java
-
-1. Explorar o código atual (Go)
-2. Identificar problemas e bugs
----
-
-## 🛠️ Como começar
-| :--- | :--- | :--- |
-| Pipeline & Resiliência | Correção de falhas e commits do professor | 20% |
-| Smoke Test | Validação da aplicação em produção | 10% |
-| SOLID & TDD | Boas práticas e testes | 20% |
-| Imutabilidade | Sem rebuild de imagem | 15% |
-| Automação de DB | Migrations automatizadas | 15% 
+## 🛠️ Como executar localmente
+1. **Requisitos:** Java 17, Docker Desktop e Maven.
+2. **Variáveis:** Configure o arquivo `.env` baseado no `.env.example`.
+3. **Comando:**
+   ```powershell
+   docker compose up -d --build
